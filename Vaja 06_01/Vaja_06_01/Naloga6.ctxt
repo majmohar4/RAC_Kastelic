@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Naloga6
+comment0.text=\n\ Tule\ spi\u0161ite\ opis\ razreda\ Naloga6\ .\n\ \n\ @author\ (tvoje\ ime)\ \n\ @version\ (stevilka\ verzije\ ali\ datum)\n
+comment1.params=arg
+comment1.target=void\ main(java.lang.String[])
+comment1.text=\n\ Glavna\ metoda\ aplikacije\ -\ spisite\ komentar\ po\ svoji\ meri\n\ \n\ @param\ \ arg[0]\ \ -\ primer\ parametra\ glavne\ funkcije\ \n
+numComments=2
