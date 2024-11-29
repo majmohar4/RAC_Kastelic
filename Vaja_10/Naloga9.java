@@ -13,7 +13,7 @@ public class Naloga9 {
 	 */
 	public static void main(String[] args) {
 		int[] t1 = {1,2,3,4};
-		int[] t2 = t1;
+		int[] t2 = {1,2,3,4};
 		t2[1]=6;
 		t2[3]=9;
 		int i=0;
