@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Sortiraj
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Sortiraj\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=t
+comment1.target=int[]\ navadnoVstavljanje(int[])
+comment2.params=t
+comment2.target=int[]\ navadnoIzbiranje(int[])
+comment3.params=t
+comment3.target=int[]\ kmetSort(int[])
+comment4.params=t
+comment4.target=int[]\ bubble_1(int[])
+comment5.params=t
+comment5.target=int[]\ bubble_2(int[])
+comment6.params=t
+comment6.target=int[]\ bubbleSort(int[])
+numComments=7
