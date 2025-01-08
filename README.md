@@ -1,6 +1,6 @@
 # RAC Vaje
 
-Ta repozitorij vsebuje vaje za predmet **RAC (Realnočasovni sistemi)** pri profesorju Kastelicu.
+Ta repozitorij vsebuje vaje za predmet **RAC** pri profesorju Kastelicu.
 
 ## Struktura
 - Vsaka vaja ima svojo mapo (npr. `Vaja1`, `Vaja2`, ...), ki vsebuje kodo in potrebne vire.
