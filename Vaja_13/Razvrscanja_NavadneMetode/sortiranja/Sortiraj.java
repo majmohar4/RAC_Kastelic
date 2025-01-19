@@ -17,7 +17,7 @@ public class Sortiraj
         int mesto   = 0;       
         while (meja < dolzina){
          // vizualizacija koraka
-        System.out.println(Arrays.toString(t));               
+        //System.out.println(Arrays.toString(t));               
         // v urejenem delu poiščemo mesto za vstavljanje (1, meja -1)
         for(mesto=0;mesto<meja && t[mesto]<t[meja];mesto++);      
         // premaknemo večje el. urejenega dela
@@ -45,7 +45,7 @@ public class Sortiraj
         
       while(meja<dolzina-1)  {          
         //vizualizacija koraka  
-        System.out.println(Arrays.toString(t));            
+        //System.out.println(Arrays.toString(t));            
         // iskanje minEl v intevalu od meja  do dolzina-1
         minEl = meja; //naj bo prvi minimalen
         for (int i=meja+1;i<dolzina;i++){
@@ -88,7 +88,7 @@ public class Sortiraj
         for (int j=0;j<N-1;j++)  {             // gor (j++)
             
             //vizualizacija faze
-            System.out.println( Arrays.toString(t) );
+            //System.out.println( Arrays.toString(t) );
             
           for (int i=N-1;i>0;i--){         // dol (i--)
             if (t[i] < t[i-1] ){
@@ -110,7 +110,7 @@ public class Sortiraj
         for (int j=0;j<N-1;j++)  {             // gor (j++)
             
             //vizualizacija faze
-            System.out.println( Arrays.toString(t) );
+            //System.out.println( Arrays.toString(t) );
             
           for (int i=N-1;i>j;i--){              // dol (i--)
             if (t[i] < t[i-1] ){
@@ -133,7 +133,7 @@ public class Sortiraj
         for (int j=0 ; j<N-1 && zamenjava; j++)  {    // gor (j++)
             
             //vizualizacija faze
-            System.out.println( Arrays.toString(t) );
+            //System.out.println( Arrays.toString(t) );
             
           zamenjava = false;  
           for (int i=N-1;i>j;i--){              // dol (i--)

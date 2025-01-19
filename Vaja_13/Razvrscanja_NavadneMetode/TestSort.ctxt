@@ -2,4 +2,6 @@
 comment0.target=TestSort
 comment1.params=s
 comment1.target=void\ main(java.lang.String[])
-numComments=2
+comment2.params=velikost
+comment2.target=int[]\ generirajTabelo(int)
+numComments=3

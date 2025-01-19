@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Sortiraj
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Sortiraj\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\n\ Write\ a\ description\ of\ class\ Sortiraj\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
 comment1.params=t
 comment1.target=int[]\ navadnoVstavljanje(int[])
 comment2.params=t
