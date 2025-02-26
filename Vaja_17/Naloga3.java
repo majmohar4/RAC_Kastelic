@@ -7,12 +7,6 @@ import java.util.*;
  * @version 25. 2. 2025
  */
 public class Naloga3 {
-	/**
-	 * Glavna metoda aplikacije - spisite komentar po svoji meri
-	 * 
-	 * @param  arg[0]  - primer parametra glavne funkcije 
-	 */
-	
 	static int o1=0, o2=0;
 	
 	public static void main(String[] args) {
@@ -22,8 +16,6 @@ public class Naloga3 {
 			oseba[i] = new Oseba();
 			
 		izberiOsebe();
-		
-		
 		if((oseba[o1].getSpol() == oseba[o2].getSpol()) &&(oseba[o1].getSpol()=="dekle"))
 			izberiOsebe();
 			
@@ -49,7 +41,6 @@ public class Naloga3 {
 			System.out.println("Oseba2: "+((oseba[o2].grevaNaSok())?"Ja":"Ne"));
 		}
 	}
-	
 	static void izberiOsebe(){
 		o1 = (int)(Math.random()*20);
 		o2 = (int)(Math.random()*20);

@@ -4,7 +4,7 @@ import java.util.*;
  * Opis: 
  * 
  * @author Maj
- * @version 3. 2. 2025
+ * @version 26. 2. 2025
  */
 class Naloga6{
 	
@@ -14,14 +14,18 @@ class Naloga6{
 		/* vse dovoljene spremembe so znotraj tega bloka kode */
 		// naredi 20 oseb in jih vpiši v this.tabOseba
 		// izpiši vseh 20 oseb iz tabele
+		Naloga6 naloga = new Naloga6();
+		naloga.inicializiraj();
+		naloga.izpisiVseOsebe();
 		
+		
+	}
+	public void inicializiraj(){
 		for (int i=0; i<tabOseb.length; i++)
-			tabOseb[i] = new Oseba();
-			
-		izpisiVseOsebe();
+			this.tabOseb[i] = new Oseba();
 	}
 		
-	public static void izpisiVseOsebe(){
+	public void izpisiVseOsebe(){
 		for (int i=0; i<tabOseb.length; i++)
 			System.out.println(tabOseb[i]);
 	}
