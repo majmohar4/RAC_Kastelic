@@ -1,0 +1,83 @@
+Teme: 
+o  OOP: konstrukcija razreda, konstrukcija objekta, raba objekta
+* Razred, objekt
+* Lastnosti
+* Metode
+* Geterji, seterji(vracalci, nastavljalc)
+* Konstruktorji
+* Uporabniško definirane metode
+* Metoda toString
+* Diagrami: razredni diagram, objektni diagram, sekvencni diagram
+
+
+Želeli bi spisati program, ki bi bil sposoben med dvema objektoma izvesti konverzacijo, kot je podana z naslednjim sekvencnim diagramom (diagramom zaporedja, SD- sequence diagram):
+
+- crtkana crta predstavlja casovno os (cas tece navzdol)
+- sporocila med objektoma so oznacena s pušcicami (realizacija:metode)
+- zeleno je oznacena aktivnost (dogajanje)
+- uokvirjeni bloki oznacujejo pogojno izvajanje medsebojne komunikacije (drugace glede na to, ali je cilj komunikacije dekle ali kaj drugega).
+
+Janez in Metka sta primerka tipa Oseba (objekta). Vsaka oseba mora poleg zahtev v SD diagramu znati odgovarjati na atomarna vprašanja o imenu, priimku in spolu (metode vrste get). Ce je vprašana, zna oseba povedati tudi kombinacijo svojega priimka in imena.
+Poleg v besedilu omenjenih lastnosti vsaki osebi pripišemo še oddelek/razred in enolicno vpisno številko.
+
+Omejitve pri dolocanju podatkov za osebo so:
+ime, priimek : najmanj 3 znaki, najvec 15 znakov, razred je nekaj izmed {g1a,g1b,g2a,g2b,g3a,g3b,g4a,g4b}, vpisna številka je cela 5 mestna številka iz intervala od 10000 do 99999; pri tem dve osebi ne moreta imeti iste vpisne številke. Spol je element množice{fant,dekle}
+
+(slika je na hitro narejena online na http://creately.com, marec 2017)
+
+
+
+
+Naloga  1 
+a) Kreirajte razred in opredelite lastnosti (opredeliti v kodi pomeni: definirati oz. spisati. Vse lastnosti naj bodo striktno privatne.
+b) Za vsako atomarno lastnost definirajte nastavljalce in vracalce; pri nastavljalcih upoštevajte zahtevane omejitve; v primeru, da je dano ime, priimek prekratko, ga podaljšajte na minimalno zahtevano dolžino z dodajanjem nakljucnih numericnih znakov; ce sta predolga ju skrajšajte na maksimalno zahtevano dolžino.
+c) Dodajte konstruktor; za nastavljanje vrednosti podatkov naj uporabi že definirane nastavljalce; konstruktorju podate ime, priimek, spol in razred.
+d) Dodajte konstruktor kot nadomestilo privzetemu konstruktorju; ime, priimek, spol, razred naj se generirajo nakljucno ali prevzamejo iz nekega prej definiranega slovarja.
+e) Dodajte preostale metode, ki so zahtevane z besedilom in z diagramom z opisom konverzacije.
+
+Naloga  2
+a) Izrišite razredni diagram razreda Oseba.
+b) Izrišite objektna diagrama (slika: objekta Janez, Metka; enak diagram kot razredni, samo da odraža trenutno stanje - atributi oz. lastnosti imajo vrednosti. Vzemite trenutek po inicializaciji obeh objektov, pa preden se pricne konverzacija med njima (sporocila med objektoma zanemarimo).
+
+Naloga  3
+Spišite javanski program, ki bo ustvaril kolekcijo (tabelo) 20 oseb, nato bo iz tabele vzel 2 nakljucni osebi in izvedel konverzacijo, kot je opisana na diagramu (SD). Konverzacijo razširite z vljudnostjo, pri kateri se fant, ki zacenja pogovor najprej predstavi. ( op.: tabela oseb naj bo razredna lastnost). Celoto aktivnosti programa ponazarja spodnji diagram (diagram aktivnosti, activity diagram), ki v primeru izbire dveh deklet ponovi izbiro oseb:
+(slika je na hitro narejena online na: https://yuml.me/diagram/scruffy/activity/draw, marec 2017)
+
+Naloga  4
+a) Spišite javanski program, ki bo ustvaril dva objekta vrste Oseba; prvi naj bo mirko(ime:Mirko), drugi sabina(ime:Sabina). Nato izpišite oba objekta kot: System.out.println(sabina); in System.out.println(mirko);
+a. Ali se objekta izpišeta ali program pri izpisu javi napako?
+b. Kako se oba objekta izpišeta ?
+c. Ali se pri ponovnem zagonu izpišejo za ista objekta iste vrednosti? Kako si to razlagate?
+b) V definicijo razreda Oseba dodajte metodo
+public String toString(){
+    return "oseba:< "+ime+","+priimek+","+spol+">";
+}
+
+Pri predpostavki, da so v Oseba definirane objektne lastnosti poimenovane ime, priimek,spol. 
+Ponovno poskusite z izpisom iz dela a) te naloge in podajte  odgovore na vsa tri vsebovana podvprašanja.
+Naloga  5
+Spišite javanski program Naloga5, ki bo implementiral tabelo 20-tih oseb (kot v naloga 3). Programu dodajte metodo izpisiVseOsebe. Ta bo vse osebe tabele 20-tih oseb (podane kot argument metodi ?) izpisala na zaslon s pomocjo metode toString/0, kot je definirana v 4.b)  .
+Naloga  6
+Javanski program Naloga6 implementira tabelo kot objektno lastnost. Glavna metoda danega programa v komentarjih opredeli delovanje programa. Pri tem strukture razreda Naloga6 ne spreminjamo, temvec uporabimo glavno metodo zgolj kot ovojnico za kreiranje objekta  s katerim oz. nad katerim bomo izvedli s predhodnim besedilom zahtevano. (zasledujemo filozofijo, da v OO svetu obstajajo zgolj objekti in sporocila, prvega je pac nekako potrebno narediti; in to naredimo z zagonskim razredom oz. njegovo zagonsko metodo):
+class Naloga6{
+
+    private Oseba[] tabOseb = new Oseba[20];
+    
+    public static void main(String[] args){
+        /* vse dovoljene spremembe so znotraj tega bloka kode */
+        // naredi 20 oseb in jih vpiši v this.tabOseba
+        // izpiši vseh 20 oseb iz tabele
+    }
+}
+LAV 3	Laboratorijska vaja 17	
+(or.2017, až.feb 2025)
+
+
+
+
+(Skrajni rok za dokoncanje in oddajo vaje je 14 dni od datuma objave tega dokumenta.)
+
+stran 1 od 1
+
+
+
