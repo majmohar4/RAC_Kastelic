@@ -7,42 +7,67 @@
  */
 public class Oseba
 {
-        String ime;
-        String priimek;
-        String spol;
-        String razred;
-        int stevilka;
+        private String ime;
+        private String priimek;
+        private String spol;
+        private String razred;
+        private int stevilka;
         
         String[] spolIzbira = {"fant", "dekle"};
+        String[] imena = {
+            "Luka", "Matej", "Ana", "Miha", "Tina",
+            "Gregor", "Nina", "Blaž", "Eva", "Marko",
+            "Maja", "Simon", "Jana", "Rok", "Petra",
+            "David", "Anže", "Katarina", "Vid", "Urška"
+        };
+    
+        String[] priimki = {
+            "Novak", "Horvat", "Krajnc", "Zupan", "Kovač",
+            "Potočnik", "Mlakar", "Vidmar", "Kos", "Turk",
+            "Kralj", "Rozman", "Božič", "Kavčič", "Petek",
+            "Golob", "Kregar", "Breznik", "Oblak", "Sever"
+        };
+        String[] razdredi = {
+            "g1a", "g1b", "g2a", "g2b", "g3a", "g3b", "g4a", "g4b"
+        };
         
         Oseba(){
-            ime = "Sizif";
-            priimek = "Novak";
-            spol = "fant";
-            razred = "g3a";
+            ime = imena[(int)(Math.random()*20)];
+            priimek = priimki[(int)(Math.random()*20)];
+            spol = spolIzbira[(int)(Math.random()*2)];
+            razred = razdredi[(int)(Math.random()*8)];
             stevilka = getStevilka();
         }
-        Oseba(String ime_d, String priimel_d, String spol_d, String razdred_d){
+        Oseba(String ime){
+            setIme(ime);
+            priimek = priimki[(int)(Math.random()*20)];
+            spol = spolIzbira[(int)(Math.random()*2)];
+            razred = razdredi[(int)(Math.random()*8)];
+            stevilka = getStevilka();
+        }
+        Oseba(String ime_d, String priimek_d, String spol_d, String razred_d){
             setIme(ime_d);
-            setPriimek(priimel_d);
+            setPriimek(priimek_d);
             setSpol(spol_d);
-            setRazred(razdred_d);
+            setRazred(razred_d);
             setStevilka();
         }
-        Oseba(String ime_d, String priimel_d, String spol_d, String razdred_d, int stevilka_d){
+        Oseba(String ime_d, String priimek_d, String spol_d, String razred_d, int stevilka_d){
             setIme(ime_d);
-            setPriimek(priimel_d);
+            setPriimek(priimek_d);
             setSpol(spol_d);
-            setRazred(razdred_d);
+            setRazred(razred_d);
             setStevilka(stevilka_d);
+        }
+    
+        public String toString(){
+            return "oseba:< "+ime+","+priimek+","+spol+">";
         }
         
         public String getIme() {
             return ime;
         }
         public void setIme(String ime) {
-            System.out.println("Dolzina: " + ime.length());
-            
             if (ime.length() >= 3 && ime.length() <= 15) {
                 this.ime = ime;
             } else if (ime.length() > 15) {
@@ -69,6 +94,23 @@ public class Oseba
                 this.priimek = priimek;
             }
         }
+    
+        public boolean siDekle(){
+            return this.spol.equals("dekle");
+        }
+        public boolean biSlaNaZmenek(){
+            int s= (int)(Math.random()*2);
+            return (s==0)?true:false;
+        }
+        public boolean grevaNaSok(){
+            int s= (int)(Math.random()*2);
+            return (s==0)?true:false;
+        }
+    
+        public void predstaviSe(){
+            System.out.println("Sem "+this.ime+" "+this.priimek+".");
+        }
+        
         public String getSpol() {
             return spol;
         }
@@ -76,7 +118,7 @@ public class Oseba
             boolean nasel = false;
             for (int i=0; i<2; i++){
                 if(spolIzbira[i]==spol){
-                    spol = spolIzbira[i];
+                    this.spol = spolIzbira[i];
                     nasel = true;
                     break;
                 }
@@ -88,17 +130,37 @@ public class Oseba
             return razred;
         }
         public void setRazred(String razred) {
-            
+            switch (razred) {
+                case "g1a":
+                case "g1b":
+                case "g2a":
+                case "g2b":
+                case "g3a":
+                case "g3b":
+                case "g4a":
+                case "g4b":
+                this.razred = razred;
+                    break;
+                default: 
+                    razred="g1a";
+            }
             this.razred = razred;
         }
         public int getStevilka() {
             return stevilka;
         }
         public void setStevilka(int stevilka) {
-            this.stevilka = stevilka;
+            int length = String.valueOf(stevilka).length();
+            if(length!=5) 
+                setStevilka();
+            else 
+                this.stevilka = stevilka;
         }
         public void setStevilka() {
             stevilka = (int)(Math.random()*110000-10000);
             this.stevilka = stevilka;
         }
+    public static void main(String[] args){
+        System.out.println("hello world");
+    }
 }
