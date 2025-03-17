@@ -1,0 +1,8 @@
+public class Naloga2{
+	public static void main(String[] args){
+		int tab[] = {3,5,3,5,15,35,
+	}
+	public static boolean test_3_5(){
+		
+	}
+}
