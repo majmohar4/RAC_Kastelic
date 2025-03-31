@@ -43,6 +43,19 @@ public class Lik {
 	*    Kliče funkcijo getX() iz objekta vrste Smer;
 	*/
 	public int getX(){
+		return x;
+	}
+	
+	/**
+	*    Kliče funkcijo getY() iz objekta vrste Smer;
+	*/
+	public int getsY(){
+		return y;
+	}
+	/**
+	*    Kliče funkcijo getX() iz objekta vrste Smer;
+	*/
+	public int getsX(){
 		return s.getX();
 	}
 	

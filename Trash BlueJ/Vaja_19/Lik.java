@@ -5,13 +5,12 @@ import java.util.*;
  * 
  * Spremenljivke: x, y, s
  * @author Maj
- * @version 17. 3. 2025
+ * @version 16. 3. 2025
  */
 public class Lik {
 	private int x;
 	private int y;
 	public Smer s;
-	
 	/**
 	 * Konstruktor, ki je klican brez argumentov
 	**/
@@ -22,7 +21,7 @@ public class Lik {
 	}
 	
 	/**
-	 * Konstruktor, ki je klican z argumenti pozicije x in y
+	 * Konstruktor, ki je klican z argumenti komponent vektorja x in y
 	**/
 	public Lik(int x, int y){
 		this.x = x;
@@ -31,7 +30,7 @@ public class Lik {
 	}
 	
 	/**
-	 * Konstruktor, ki je klican z argumenti pozicije x in y in smerjo
+	 * Konstruktor, ki je klican z argumenti komponent vektorja x in y in smerjo
 	**/
 	public Lik(int x, int y, int s1, int s2){
 		this.x = x;
@@ -40,6 +39,11 @@ public class Lik {
 	}
 	
 	/**
+	*    @return void
+	* 
+	*    @author Maj Mohar
+	*    @version 0.01
+	*
 	*    Kliče funkcijo getX() iz objekta vrste Smer;
 	*/
 	public int getX(){
@@ -47,13 +51,18 @@ public class Lik {
 	}
 	
 	/**
+	*    @return void
+	* 
+	*    @author Maj Mohar
+	*    @version 0.01
+	*
 	*    Kliče funkcijo getY() iz objekta vrste Smer;
 	*/
 	public int getY(){
 		return s.getY();
 	}
 	/**
-	 *   Kliče funkcijo obrniLevo() iz objekta vrste Smer;
+	*    Kliče funkcijo obrniLevo() iz objekta vrste Smer;
 	*/
 	public void obrniLevo(){
 		s.obrniLevo();

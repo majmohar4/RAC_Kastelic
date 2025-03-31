@@ -5,7 +5,7 @@ import java.util.*;
  * 
  * Spremenljivke: x, y
  * @author Maj
- * @version 17. 3. 2025
+ * @version 16. 3. 2025
  */
 public class Smer{
 	
@@ -25,10 +25,6 @@ public class Smer{
 	}
 	/**
 	*    @return x
-	* 
-	*    @author Maj Mohar
-	*    @version 0.01
-	*
 	*    Fukcija vrne x komponento smeri gibanja
 	*/
 	public int getX(){
@@ -37,23 +33,13 @@ public class Smer{
 	
 	/**
 	*    @return y
-	* 
-	*    @author Maj Mohar
-	*    @version 0.01
-	*
 	*    Fukcija vrne y komponento smeri gibanja
 	*/
 	public int getY(){
 		return this.y;
 	}
 	
-	/**
-	*    @return void
-	* 
-	*    @author Maj Mohar
-	*    @version 0.01
-	*
-	*    Funkcija simulira obračanje smeri v levo s pomočjo menjave koordinat
+	/**	*    Funkcija simulira obračanje smeri v levo s pomočjo menjave koordinat
 	*/
 	public void obrniLevo(){
 		int t = y;
@@ -62,11 +48,6 @@ public class Smer{
 	}
 	
 	/**
-	*    @return void
-	* 
-	*    @author Maj Mohar
-	*    @version 0.01
-	*
 	*    Funkcija simulira obračanje smeri v desno s pomočjo menjave koordinat
 	*/
 	public void obrniDesno(){
@@ -76,11 +57,6 @@ public class Smer{
 	}
 	
 	/**
-	*    @return String
-	* 
-	*    @author Maj Mohar
-	*    @version 0.01
-	*
 	*    Funkcija izpiše "vektor" smeri gibanja
 	*/
 	public String toString(){

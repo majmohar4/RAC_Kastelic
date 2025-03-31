@@ -5,7 +5,7 @@ import java.util.*;
  * 
  * Spremenljivke: x, y
  * @author Maj
- * @version 17. 3. 2025
+ * @version 16. 3. 2025
  */
 public class Smer{
 	
