@@ -7,29 +7,29 @@ import java.util.*;
  * @version 17. 3. 2025
  */
 class Krogec extends Lik {
-	int centerX, centerY;
-	double radij;
+	private int centerX, centerY;
+	private double radij;
 	
 	public Krogec(){
 		super();
-		centerX=super.getX();
-		centerY=super.getY();
+		centerX=x;
+		centerY=y;
 		radij=1;
 	}
 	public Krogec(int x, int y, double radij){
 		super();
-		this.centerX = centerX;
-		this.centerY = centerY;
+		this.centerX = centerX=x;
+		this.centerY = centerY=y;
 		this.radij = radij;
 			}
 	public Krogec(int centerX, int centerY, double radij, int s1, int s2){
 		super(centerX, centerY, s1, s2);
-		this.centerX=centerX;
-		this.centerY=centerY;
+		this.centerX=centerX=x;
+		this.centerY=centerY=y;
 		this.radij = radij;
 	}
 	public String toString(){
-		return ("Center kroga: T("+centerX+", "+centerY+"), radij: "+radij+", smer: S("+super.s.getX()+", "+super.s.getY()+").");
+		return ("Center kroga: T("+centerX+", "+centerY+"), radij: "+radij+", smer: S("+super.x+", "+super.y+").");
 	}
 	public void premakni(){
 		super.premakni();

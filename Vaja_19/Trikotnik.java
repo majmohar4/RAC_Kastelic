@@ -7,7 +7,7 @@ import java.util.*;
  * @version 31. 3. 2025
  */
 class Trikotnik extends Lik {
-	int x1, y1, x2, y2, x3, y3;
+	private int x1, y1, x2, y2, x3, y3;
 	/**
 	*    Konstruktor brez argumentov poda privzete točke
 	*/
@@ -64,6 +64,9 @@ class Trikotnik extends Lik {
 	*/
 	public String toString() {
 		return "Trikotnik s točkami: A(" +x1+ ", " +y1+ "), B(" +x2+ ", " +y2+ "), C(" +x3+ ", " +y3+ "), smer: S(" +super.s.getX()+ ", " +super.s.getY() + ").";
+	}
+	public static void main(String[] args){
+		Trikotnik t = new Trikotnik();
 	}
 }
 

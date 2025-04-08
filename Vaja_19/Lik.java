@@ -8,9 +8,9 @@ import java.util.*;
  * @version 17. 3. 2025
  */
 public class Lik {
-	private int x;
-	private int y;
-	public Smer s;
+	protected int x;
+	protected int y;
+	protected Smer s;
 	
 	/**
 	 * Konstruktor, ki je klican brez argumentov
@@ -37,33 +37,6 @@ public class Lik {
 		this.x = x;
 		this.y = y;
 		s = new Smer(s1, s2);
-	}
-	
-	/**
-	*    Kliče funkcijo getX() iz objekta vrste Smer;
-	*/
-	public int getX(){
-		return x;
-	}
-	
-	/**
-	*    Kliče funkcijo getY() iz objekta vrste Smer;
-	*/
-	public int getsY(){
-		return y;
-	}
-	/**
-	*    Kliče funkcijo getX() iz objekta vrste Smer;
-	*/
-	public int getsX(){
-		return s.getX();
-	}
-	
-	/**
-	*    Kliče funkcijo getY() iz objekta vrste Smer;
-	*/
-	public int getY(){
-		return s.getY();
 	}
 	/**
 	 *   Kliče funkcijo obrniLevo() iz objekta vrste Smer;
