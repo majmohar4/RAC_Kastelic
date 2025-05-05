@@ -13,6 +13,7 @@ import java.awt.*;
 import javafx.scene.layout.HBox;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
+import javafx.animation.PauseTransition;
 
 import java.util.*;
 
@@ -27,7 +28,7 @@ import java.util.*;
 */
 public class Karte extends Application {
     private static boolean deljeno=false;
-    private static int counter=0;
+    private static int counter=51;
     private static Karta[] rokaLeva=new Karta[5];
     private static Karta[] rokaDesna = new Karta[5];
     
@@ -82,23 +83,49 @@ public class Karte extends Application {
         if(!deljeno){
             deliKarte();
         }else{
-            
+            spucajKarte();
         }
     }
     public static void deliKarte(){
-        //counter pove, do kje so karte "porabljene"
-        int x = 200;
-        int y=200;
-        for(int i=0; i<5; i++){
-            rokaLeva[i] = karte[counter];
-            karte[counter].prestavi(x, y);
-            
-            counter++;
-            rokaLeva[i] = karte[counter];
-            karte[counter].prestavi(x, y);
-            
-            y+=160;
-            counter++;
+        if(counter-10 >=0){
+            int x = 200;
+            for(int i = 0; i < 5; i++){
+                final int j = i;
+                final int xx = x;
+                final int yy = i * 160;
+                final int indexLevi = counter;
+                final int indexDesni = counter -1;
+                
+                PauseTransition zamik1 = new PauseTransition(Duration.seconds(i * 0.5));
+                zamik1.setOnFinished(e -> {
+                    rokaLeva[j] = karte[indexLevi];
+                    karte[indexLevi].prestavi(xx, yy, true);
+                });
+                zamik1.play();
+                
+                PauseTransition zamik2 = new PauseTransition(Duration.seconds(i * 0.5 + 0.25));
+                zamik2.setOnFinished(e -> {
+                    rokaDesna[j] = karte[indexDesni];
+                    karte[indexDesni].prestavi(xx + 800, yy, true);
+                });
+                zamik2.play();
+                
+                counter -= 2;
+            }
+            deljeno = !deljeno;
+        } else {
+            System.out.println("Premalo kart");
         }
     }
+    
+    public static void spucajKarte(){
+        int x = 600;
+        int y=200;
+        for(int i=0; i<5; i++){
+            rokaLeva[i].prestavi(x,y, false);
+            rokaDesna[i].prestavi(x,y, false);
+        }
+        deljeno=!deljeno;
+    }
 }
+                            

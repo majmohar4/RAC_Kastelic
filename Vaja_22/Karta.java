@@ -43,14 +43,20 @@ public class Karta{
 			this.vrednost = vrednost;
 			this.mesto = mesto;
 			frontImage = new Image("./cards/" + vrednost + ".png");
-			imageView = new ImageView(backImage);
+			imageView = new ImageView(frontImage);
 			imageView.setFitWidth(100);
 			imageView.setFitHeight(150);
 		
 			imageButton = new Button();
 			imageButton.setGraphic(imageView);
-			imageButton.setOnAction(e -> prestavi(mesto));
+			imageButton.setOnAction(e -> obrni());
 		}
+	public String vrniVrednost(){
+		return vrednost;
+	}
+	public String vrniStanje(){
+		return (!obrnjena?"lice":"hrbet");
+	}
 	
 	public void obrni() {
 		RotateTransition rt1 = new RotateTransition(Duration.seconds(0.25), this.getGumb());
@@ -86,50 +92,19 @@ public class Karta{
 		public String getVrednost() {
 			return vrednost;
 		}
-	public void prestavi(){
+	public void prestavi(int x, int y, boolean obrni) {
 		TranslateTransition anim = new TranslateTransition(Duration.seconds(0.5), this.imageButton);
-		anim.setToX(200); // premik za 200px desno
-		anim.setToY(0);   // ostane na isti višini
-		anim.play();
-		obrni();
-	}
-	public void prestavi(int kupcek){
-		TranslateTransition anim = new TranslateTransition(Duration.seconds(0.5), this.imageButton);
-		double pozicija = this.imageButton.getLayoutX() + this.imageButton.getTranslateX();
-		System.out.println("pozicija x: "+pozicija);
-		switch(kupcek){
-			case 0:
-				anim.setToX(0);
-				anim.setOnFinished(e-> {
-					this.getGumb().toFront();  // zagotovi, da bo karta vedno na vrhu
-				});
-				break;
-			case 1:
-				anim.setToX(-200);
-				anim.setOnFinished(e-> {
-					this.getGumb().toBack();  // zagotovi, da bo karta v ozadju
-				});
-				break;
-			case 2:
-				anim.setToX(-400);
-				anim.setOnFinished(e-> {
-					this.getGumb().toBack();  // zagotovi, da bo karta v ozadju
-				});
-		}
-		anim.setToY(0);   // ostane na isti višini
-		anim.play();
-		obrni();
-	}
-	public void prestavi(int x, int y){
-		TranslateTransition anim = new TranslateTransition(Duration.seconds(0.5), this.imageButton);
-		double pozicija = this.imageButton.getLayoutX() + this.imageButton.getTranslateX();
-		anim.setToX(-pozicija+x);
-		anim.setToY(-pozicija+y); 
-		anim.setOnFinished(e-> {
+		
+		double trenutniX = this.imageButton.getLayoutX() + this.imageButton.getTranslateX();
+		double trenutniY = this.imageButton.getLayoutY() + this.imageButton.getTranslateY();
+		anim.setToX(x - this.imageButton.getLayoutX());
+		anim.setToY(y - this.imageButton.getLayoutY());
+		anim.setOnFinished(e -> {
 			this.getGumb().toBack();
 		});
 		anim.play();
-		obrni();
+		if(obrni)
+			obrni();
 	}
 }
 	
