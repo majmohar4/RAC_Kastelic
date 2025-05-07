@@ -24,10 +24,9 @@ import java.util.*;
 * JavaFX aplikacija števec
 * 
 * @author Maj
-* @version 29/04/2025
+* @version 5/05/2025
 */
 public class Karte extends Application {
-    private static boolean deljeno=false;
     private static int counter=51;
     private static Karta[] rokaLeva=new Karta[5];
     private static Karta[] rokaDesna = new Karta[5];
@@ -42,21 +41,21 @@ public class Karte extends Application {
 		
         Pane pane = new Pane();
 		
-		String[] barve = { "C", "D", "H", "S" };
+		char[] barve = { 'C', 'D', 'H', 'S' };
 		String[] vrednosti = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "K", "Q" };
 		
 		int k = 0;
 		for (int i = 0; i < barve.length; i++) {
-			for (int j = 0; j < vrednosti.length; j++) {
-				karte[k] = new Karta(vrednosti[j] + barve[i], 1);
-                karte[k].getGumb().setLayoutX(600);
-                karte[k].getGumb().setLayoutY(400);
+			for (int j = 2; j < 15; j++) {
+				karte[k] = new Karta(j, barve[i]);
+                karte[k].setLayoutX(600);
+                karte[k].setLayoutY(400);
                 k++;
 			}
 		}
         premesajKarte();
         for(int i=0;i<karte.length;i++)
-            pane.getChildren().add(karte[i].getGumb());
+            pane.getChildren().add(karte[i]);
         
         Button prestavi = new Button("Deli");
         prestavi.setOnAction(e -> prestavi());
@@ -128,3 +127,4 @@ public class Karte extends Application {
         deljeno=!deljeno;
     }
 }
+                            
