@@ -11,14 +11,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.awt.*;
 import javafx.scene.layout.HBox;
-import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
-import javafx.animation.PauseTransition;
+
+import javafx.scene.*;
+import javafx.animation.*;
 
 import javafx.scene.media.AudioClip;
 
 import java.util.*;
-
 /**
 * Opis:
 * JavaFX aplikacija, ki simulira igro s kartami "Vojna"
@@ -52,11 +52,8 @@ public class Vojna extends Application {
 	}
 	@Override
 	public void start(Stage stage) {
-        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        poljeX = screenSize.getWidth();
-        poljeY= screenSize.getHeight();
-        
-        
+        poljeX = 1440;
+        poljeY= 800;        
 		char[] barve = { 'C', 'D', 'H', 'S' };
 		String[] vrednosti = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "K", "Q" };
         
@@ -65,24 +62,29 @@ public class Vojna extends Application {
 			for (int j = 2; j < 15; j++) {
 				karte[k] = new Karta(j, barve[i]);
                 karte[k].setLayoutX((poljeX-100)/2);
-                karte[k].setLayoutY(200);
+                karte[k].setLayoutY(450);
                 k++;
 			}
 		}
         prestavi = new Button("Prični");
         prestavi.setOnAction(e -> prestavi());
         
-        int h = 150, w = 100;
-        prestavi.setLayoutX((poljeX-w)/2);
-        prestavi.setLayoutY((poljeY-h)/2);
+        int width = 150, height = 80;
+        prestavi.setLayoutX((poljeX - width) / 2);
+        prestavi.setLayoutY(poljeY - height - 100); // spodaj, 100 px od spodnjega roba
+        prestavi.setMinSize(width, height);
+        prestavi.setPrefSize(width, height);
+        prestavi.setMaxSize(width, height);
         
-        prestavi.setMinSize(h, w);
-        prestavi.setPrefSize(h, w);
-        prestavi.setMaxSize(h, w);
         pane.getChildren().add(prestavi);
         
 		        
 		Scene scene = new Scene(pane, poljeX, poljeY);
+        
+        PerspectiveCamera camera = new PerspectiveCamera();
+        scene.setCamera(camera);
+        
+        
 		stage.setTitle("Igra: Vojna");
 		stage.setScene(scene);
 		stage.show();
@@ -100,7 +102,7 @@ public class Vojna extends Application {
                 state = GameState.DRAW;
                 break;
             case DRAW:
-                //
+                draw();
                 break;
             case CHECK:
                 //
@@ -113,6 +115,10 @@ public class Vojna extends Application {
                 break;
         }
     }
+    public static void draw(){
+        
+    }
+    
     public static void inicializirajPolje(){
         premesajKarte();
         for(int i=karte.length-1;i>=0;i--)
@@ -131,6 +137,7 @@ public class Vojna extends Application {
         if(!start){
             int x = 200;
             int y = 200;
+            boolean obrni=false;
             int k=0;
             for(int i = 0; i < karte.length/2;i++){
                 final int j = i;
@@ -139,13 +146,13 @@ public class Vojna extends Application {
                 final int indexLevi = counter;
                 final int indexDesni = counter +1;
                 double zmanjsaj=0.004;
-                double base = 0.08*i;
+                double base = 0.12*i;		
                 double easeOut = Math.pow(i, 0.2) * 0.007;
                 
                 PauseTransition zamik1 = new PauseTransition(Duration.seconds(base-easeOut));
                 zamik1.setOnFinished(e -> {
                     kupcekLevi[j] = karte[indexLevi];
-                    karte[indexLevi].prestavi(xx, yy, true);
+                    karte[indexLevi].prestavi(xx, yy, obrni);
                     zvok = new AudioClip(Vojna.class.getResource("card1.wav").toString());
                     zvok.play();
                 });
@@ -154,7 +161,7 @@ public class Vojna extends Application {
                 PauseTransition zamik2 = new PauseTransition(Duration.seconds(base + 0.05-easeOut));
                 zamik2.setOnFinished(e -> {
                     kupcekDesni[j] = karte[indexDesni];
-                    karte[indexDesni].prestavi(xx + 800, yy, true);
+                    karte[indexDesni].prestavi(xx + 800, yy, obrni);
                     zvok = new AudioClip(Vojna.class.getResource("card1.wav").toString());
                     zvok.play();
                 });
