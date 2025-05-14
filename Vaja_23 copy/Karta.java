@@ -7,18 +7,6 @@ import javafx.animation.RotateTransition;
 import javafx.scene.transform.Rotate;
 import javafx.animation.Interpolator;
 
-import javafx.scene.media.AudioClip;
-
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.paint.Color;
-
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import java.awt.*;
-
 
 /**
 * Opis:
@@ -28,16 +16,10 @@ import java.awt.*;
 * @version 29/04/2025
 */
 public class Karta extends Button implements Obracalna{
-	
-	private int x=144;
-	private int y=216;
-	
 	private boolean obrnjena;
 	private String vrednost;
 	private int vrednostInt;
 	private char znak;
-	
-	private int kupcek;
 	
 	private final char[] imena = {'J','Q','K','A'};
 	
@@ -59,8 +41,8 @@ public class Karta extends Button implements Obracalna{
 		}
 		frontImage = new Image("file:cards/" + vrednost + ".png");
 		imageView = new ImageView(backImage);
-		imageView.setFitWidth(x);
-		imageView.setFitHeight(y);
+		imageView.setFitWidth(120);
+		imageView.setFitHeight(180);
 		obrnjena=true;
 	
 		this.setGraphic(imageView);
@@ -85,55 +67,24 @@ public class Karta extends Button implements Obracalna{
 		return znak;
 	}
 	
-	public void setGlow(){
-		DropShadow zlato = new DropShadow();
-		zlato.setRadius(100);
-		zlato.setColor(Color.rgb(255,215,0, 1.0));
-		this.setEffect(zlato);
-	}
-	public void setGlowSlowly() {
-		DropShadow zlato = new DropShadow();
-		zlato.setRadius(10);
-		zlato.setColor(Color.rgb(255, 215, 0, 0.0));
-		this.setEffect(zlato);
-		
-		Timeline anim = new Timeline(
-			new KeyFrame(Duration.ZERO,
-				new KeyValue(zlato.colorProperty(), Color.rgb(255, 215, 0, 0.0)),
-				new KeyValue(zlato.radiusProperty(), 50)
-			),
-			new KeyFrame(Duration.seconds(1.5),
-				new KeyValue(zlato.colorProperty(), Color.rgb(255, 215, 0, 1.0)),
-				new KeyValue(zlato.radiusProperty(), 100)
-			)
-		);
-		
-		anim.setCycleCount(1);
-		anim.play();
-	}
-	
-	
-	
 	@Override
 	public void obrni() {
-		final int i=(kupcek==1)?1:-1;
 		RotateTransition rt1 = new RotateTransition(Duration.seconds(0.2), this);
 		rt1.setAxis(Rotate.Y_AXIS);
 		rt1.setFromAngle(0);
-		rt1.setToAngle((-90)*i);
+		rt1.setToAngle(90);
 		rt1.setInterpolator(Interpolator.EASE_IN);
-		zvok("flip.wav");
 		
 		rt1.setOnFinished(e -> {
 			this.imageView.setImage(obrnjena ? frontImage : backImage); //zamenja "stran" karte
 			obrnjena = !obrnjena;
 			
-			this.setRotate((-270)*i);
+			this.setRotate(270);
 			
 			RotateTransition rt2 = new RotateTransition(Duration.seconds(0.2), this);
 			rt2.setAxis(Rotate.Y_AXIS);
-			rt2.setFromAngle((-270)*i);
-			rt2.setToAngle((-360)*i);
+			rt2.setFromAngle(270);
+			rt2.setToAngle(360);
 			rt2.setInterpolator(Interpolator.EASE_OUT);
 			rt2.play();
 		});
@@ -144,7 +95,7 @@ public class Karta extends Button implements Obracalna{
 		public String getVrednost() {
 			return vrednost;
 		}
-	public void prestavi(int x, int y, boolean obrni, int kupcek) {
+	public void prestavi(int x, int y, boolean obrni) {
 		TranslateTransition anim = new TranslateTransition(Duration.seconds(0.5), this);
 		
 		anim.setToX(x - this.getLayoutX());
@@ -154,21 +105,13 @@ public class Karta extends Button implements Obracalna{
 		});
 		anim.setInterpolator(Interpolator.LINEAR);
 		RotateTransition rt = new RotateTransition(Duration.seconds(0.5), this);
-		//rt.setByAngle((Math.random() - 0.5) * 20); // -10° do +10°
+		rt.setByAngle((Math.random() - 0.5) * 20); // -10° do +10°
 		rt.setInterpolator(Interpolator.EASE_BOTH);
 		rt.play();
 		
 		anim.play();
 		if(obrni)
 			obrni();
-		this.kupcek=kupcek;
-	}
-	public String toString(){
-		return vrednost;
-	}
-	public static void zvok(String ime) {
-		AudioClip zvok = new AudioClip(Vojna.class.getResource(ime).toString());
-		zvok.play();
 	}
 }
 

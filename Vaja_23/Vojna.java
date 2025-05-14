@@ -1,130 +1,170 @@
-import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.geometry.Insets;
-import javafx.stage.Stage;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import java.awt.*;
-import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-
-import javafx.scene.*;
-import javafx.animation.*;
-
+import javafx.animation.PauseTransition;
 import javafx.scene.media.AudioClip;
-
 import java.util.*;
-/**
-* Opis:
-* JavaFX aplikacija, ki simulira igro s kartami "Vojna"
-* 
-* @author Maj
-* @version 05/05/2025
-*/
-public class Vojna extends Application {
-    private static int counter=0;
-    private static Karta[] kupcekLevi=new Karta[52];
-    private static int pointerLevi =0;
-    private static Karta[] kupcekDesni = new Karta[52];
-    private static int poinetrDesni =0;
+import java.util.ArrayList;
+import java.util.List;
+import java.applet.*;
+import java.time.*;
+
+import javafx.scene.paint.Color;
+
+
+public class Vojna implements Mesalna{
+    private final Pane pane;
+    private final Button prestavi;
+    private final double poljeX = 1260;
+    private final double poljeY = 810;
+    private GameState state = GameState.WELCOME;
+    private boolean startano = false;
+    private final Karta[] karte = new Karta[52];
+    private final Kupcek levi = new Kupcek();
+    private final Kupcek desni = new Kupcek();
+    private Kupcek[] pobrano = new Kupcek[2];
     
-    private static boolean start =false;
+    private AudioClip button = new AudioClip(Vojna.class.getResource("button_click.wav").toString());
+    private AudioClip karta_zvok = new AudioClip(Vojna.class.getResource("dealing.wav").toString());
     
-    private static Karta[] karte = new Karta[52];
+    private Karta openLeft;
+    private Karta openRight;
     
-    private static Pane pane = new Pane();
-    private static GameState state = GameState.INIT;
-    private static Button prestavi;
+    private final int deck1[] = {100, 305};
+    private final int deck2[] = {1054, 305};
+    private final int open1[] = {470, 296};
+    private final int open2[] = {675, 296};
     
-    private static double poljeX;
-    private static double poljeY;
+    private int counter = 0;
     
-    private static AudioClip zvok;
+    private final GameController controller;
     
+    public Vojna(GameController controller) {
+        this.controller = controller;
+        pane = controller.cardsPane;
+        prestavi = controller.nextBtn;
+        controller.startBtn.setOnAction(e -> prestavi());
+        controller.gamePane.toBack();
+        controller.mainPane.toBack();
+        
+        pobrano[0] = new Kupcek();
+        pobrano[1] = new Kupcek();
+        
+        controller.endBtn.setOnAction(e-> System.exit(0));
+        inicializirajZvok();
+    }
     
-	public static void main(String[] args) {
-		launch(args);
-	}
-	@Override
-	public void start(Stage stage) {
-        poljeX = 1440;
-        poljeY= 800;        
-		char[] barve = { 'C', 'D', 'H', 'S' };
-		String[] vrednosti = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "K", "Q" };
+    private void inicializirajZvok() {
+        button.setVolume(0);
+        button.play();
+        button.stop();
         
-		int k = 0;
-		for (int i = 0 ; i < barve.length; i++) {
-			for (int j = 2; j < 15; j++) {
-				karte[k] = new Karta(j, barve[i]);
-                karte[k].setLayoutX((poljeX-100)/2);
-                karte[k].setLayoutY(450);
-                k++;
-			}
-		}
-        prestavi = new Button("Prični");
-        prestavi.setOnAction(e -> prestavi());
+        karta_zvok.play();
+        karta_zvok.stop();
+        button.setVolume(1.0);
+    }
+    
+
+    public void inicializiraj() {
+        ustvariKarte();
+        controller.nextBtn.setOnAction(e -> prestavi());
+        controller.nextBtn.setText("Začni igro");
+    }
+
+    private void ustvariKarte() {
+        char[] barve = { 'C', 'D', 'H', 'S' };
+        int k = 0;
+        for (char b : barve) {
+            for (int vrednost = 2; vrednost <= 14; vrednost++) {
+                Karta nova = new Karta(vrednost, b);
+                nova.setLayoutX((poljeX - 100) / 2);
+                nova.setLayoutY(400);
+                karte[k++] = nova;
+            }
+        }
+    }
+
+    private void prestavi() {
+        button.play();
+        boolean a =false;
         
-        int width = 150, height = 80;
-        prestavi.setLayoutX((poljeX - width) / 2);
-        prestavi.setLayoutY(poljeY - height - 100); // spodaj, 100 px od spodnjega roba
-        prestavi.setMinSize(width, height);
-        prestavi.setPrefSize(width, height);
-        prestavi.setMaxSize(width, height);
+        PauseTransition enableBtn = new PauseTransition(Duration.millis(200));
+        enableBtn.setOnFinished(e -> prestavi.setDisable(false));
         
-        pane.getChildren().add(prestavi);
-        
-		        
-		Scene scene = new Scene(pane, poljeX, poljeY);
-        
-        PerspectiveCamera camera = new PerspectiveCamera();
-        scene.setCamera(camera);
-        
-        
-		stage.setTitle("Igra: Vojna");
-		stage.setScene(scene);
-		stage.show();
-	}
-    public static void prestavi(){
         switch (state) {
-            case INIT:
-                inicializirajPolje();
-                prestavi.setText("Deli karte");
-                state=GameState.START;
-                System.out.println("init");
+            case WELCOME: 
+                controller.startBtn.setDisable(true);
+                PauseTransition zamik = new PauseTransition(Duration.millis(200));
+                zamik.setOnFinished(e-> {
+                    controller.welcomePane.toBack();
+                    controller.gamePane.toFront();
+                    state = GameState.INIT;
+                    popraviKupcka();
+                });
+                zamik.play();
                 break;
-            case START:
-                deliKarte();
-                state = GameState.DRAW;
+            case INIT:
+                prestavi.setDisable(true);
+                inicializirajPolje();
+                prestavi.setText("Naslednja poteza");
+                popraviKupcka();
+                PauseTransition zamik2 = new PauseTransition(Duration.seconds(0.4));
+                zamik2.setOnFinished(e-> {
+                    if (!startano) {
+                        deliKarteAnimirano();
+                        startano = true;
+                        state = GameState.DRAW;
+                    }
+                });
+                a=true;
+                zamik2.play();
                 break;
             case DRAW:
-                draw();
+                prestavi.setDisable(true);
+                openLeft = levi.vzemi();
+                openLeft.prestavi(open1[0], open1[1], true, 0);
+                System.out.println(openLeft);
+                popraviKupcka();
+                state = GameState.CHECK;
+                PauseTransition zamik3 = new PauseTransition(Duration.seconds(1));
+                zamik3.setOnFinished(e-> {
+                    openRight = desni.vzemi();
+                    openRight.prestavi(open2[0], open2[1], true, 1);
+                    popraviKupcka();
+                    prestavi.setDisable(false);
+                });
+                a=true;
+                zamik3.play();
                 break;
             case CHECK:
-                //
+                int index =0;
+                prestavi.setDisable(true);
+                if(openLeft.vrniVrednostKarte()<openRight.vrniVrednostKarte()){
+                    openRight.setGlowSlowly();
+                }
+                else if(openLeft.vrniVrednostKarte()>openRight.vrniVrednostKarte()){
+                    openLeft.setGlowSlowly();
+                }
+                else{
+                    
+                }
                 break;
             case CLEAR:
-                //
+                prestavi.setDisable(true);
+                
                 break;
             case END:
                 //
-                break;
+                
         }
+        if(!a){
+            enableBtn.play();
+        }
+        a=false;
     }
-    public static void draw(){
-        
-    }
-    
-    public static void inicializirajPolje(){
-        premesajKarte();
-        for(int i=karte.length-1;i>=0;i--)
-            pane.getChildren().add(karte[i]);
-    }
-    public static void premesajKarte(){
+    @Override
+    public void premesaj(){
         Random rand = new Random();
         for (int i = karte.length - 1; i > 0; i--) {
             int j = rand.nextInt(i + 1);
@@ -133,50 +173,100 @@ public class Vojna extends Application {
             karte[j] = temp;
         }
     }
-    public static void deliKarte(){
-        if(!start){
-            int x = 200;
-            int y = 200;
-            boolean obrni=false;
-            int k=0;
-            for(int i = 0; i < karte.length/2;i++){
-                final int j = i;
-                final int xx = x;
-                final int yy = y;
-                final int indexLevi = counter;
-                final int indexDesni = counter +1;
-                double zmanjsaj=0.004;
-                double base = 0.12*i;		
-                double easeOut = Math.pow(i, 0.2) * 0.007;
-                
-                PauseTransition zamik1 = new PauseTransition(Duration.seconds(base-easeOut));
-                zamik1.setOnFinished(e -> {
-                    kupcekLevi[j] = karte[indexLevi];
-                    karte[indexLevi].prestavi(xx, yy, obrni);
-                    zvok = new AudioClip(Vojna.class.getResource("card1.wav").toString());
-                    zvok.play();
-                });
-                zamik1.play();
-                
-                PauseTransition zamik2 = new PauseTransition(Duration.seconds(base + 0.05-easeOut));
-                zamik2.setOnFinished(e -> {
-                    kupcekDesni[j] = karte[indexDesni];
-                    karte[indexDesni].prestavi(xx + 800, yy, obrni);
-                    zvok = new AudioClip(Vojna.class.getResource("card1.wav").toString());
-                    zvok.play();
-                });
-                zamik2.play();
-                
-                counter += 2;
-            }
+    private void popraviKupcka(){
+        controller.leviKupcekStevilo.setText(""+levi.velikost());
+        controller.desniKupcekStevilo.setText(""+desni.velikost());
+    }
+    private void inicializirajPolje() {
+        premesaj();
+        for (int i = karte.length - 1; i >= 0; i--)
+            pane.getChildren().add(karte[i]);
+    }
+
+    private void deliKarteAnimirano() {
+        prestavi.setDisable(true);
+        boolean obrni = false;
+        final int kupcek=0;
+        
+        double totalTime=0.12;
+
+        for (int i = 0; i < 26; i++) {
+            int j = i * 2;
+            Karta leva = karte[j];
+            Karta desna = karte[j + 1];
             
+            double base = 0.12 * i;
+            double easeOut = Math.pow(i, 0.2) * 0.007;
+            
+            totalTime=base+(i+2)*easeOut;
+            
+            PauseTransition zamik1 = new PauseTransition(Duration.seconds(base - easeOut));
+            zamik1.setOnFinished(e -> {
+                karte[j].prestavi(deck1[0], deck1[1], obrni, kupcek);
+                levi.dodaj(leva);
+                karta_zvok.play();
+            });
+            zamik1.play();
+
+            PauseTransition zamik2 = new PauseTransition(Duration.seconds(base + 0.05 - easeOut));
+            zamik2.setOnFinished(e -> {
+                karte[j+1].prestavi(deck2[0], deck2[1], obrni, kupcek);
+                karta_zvok.play();
+                desni.dodaj(desna);
+                popraviKupcka();
+            });
+            zamik2.play();
+            popraviKupcka();
+        }
+        PauseTransition enable = new PauseTransition(Duration.seconds(totalTime));
+        enable.setOnFinished(e->{
+            prestavi.setDisable(false);
+        });
+        enable.play();
+    }
+}
+enum GameState {
+    WELCOME, INIT, DRAW, CHECK, CLEAR, END
+}
+
+class Kupcek {
+    private Karta[] karte = new Karta[52];
+    private int start, end;
+    // end kaže na prazen prostor
+    public Kupcek(){
+        start=0;
+        end=0;
+    }
+    
+    public void dodaj(Karta karta) {
+        karte[end] = karta;
+        end++;
+    }
+    
+    public Karta vzemi() {
+        Karta k = karte[start];
+        karte[start] = null;
+        start++;
+        return k;
+    }
+    
+    public boolean prazen() {
+        return (start==end)?true:false;
+    }
+    
+    public int velikost() {
+        return (end-start);
+    }
+    public void premesaj(){
+        Random rand = new Random();
+        for (int i = end; i > 0; i--) {
+            int j = rand.nextInt(i + 1);
+            Karta temp = karte[i];
+            karte[i] = karte[j];
+            karte[j] = temp;
         }
     }
 }
-enum GameState{
-    INIT, START, DRAW, CHECK, CLEAR, END
-}
-
-interface Mesaj{
-	void premesajKarte();
+interface Mesalna{
+    void premesaj();
 }
