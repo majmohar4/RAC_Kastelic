@@ -57,6 +57,20 @@ public class Karta extends Button implements Obracalna{
 		else{
 			this.vrednost = imena[vrednostInt-11]+""+znak;
 		}
+		switch(znak){
+			case 'H':
+				vrednostInt+=0.8;
+				break;
+			case 'D':
+				vrednostInt+=0.6;
+				break;
+			case 'S':
+				vrednostInt+=0.4;
+				break;
+			case 'C':
+				vrednostInt+=0.2;
+				break;
+		}
 		frontImage = new Image("file:cards/" + vrednost + ".png");
 		imageView = new ImageView(backImage);
 		imageView.setFitWidth(x);
@@ -91,6 +105,28 @@ public class Karta extends Button implements Obracalna{
 		zlato.setColor(Color.rgb(255,215,0, 1.0));
 		this.setEffect(zlato);
 	}
+	public void removeGlow(){
+		DropShadow zlato = new DropShadow();
+		zlato.setRadius(100);
+		zlato.setColor(Color.rgb(255, 215, 0, 1.0));
+		this.setEffect(zlato);
+		
+		Timeline anim = new Timeline(
+			new KeyFrame(Duration.ZERO,
+				new KeyValue(zlato.colorProperty(), Color.rgb(255, 215, 0, 1.0)),
+				new KeyValue(zlato.radiusProperty(), 100)
+			),
+			new KeyFrame(Duration.seconds(1.5),
+				new KeyValue(zlato.colorProperty(), Color.rgb(255, 215, 0, 0)),
+				new KeyValue(zlato.radiusProperty(), 0)
+			)
+		);
+		anim.setOnFinished(e->{
+			this.setEffect(null);
+		});
+		anim.setCycleCount(1);
+		anim.play();
+	}
 	public void setGlowSlowly() {
 		DropShadow zlato = new DropShadow();
 		zlato.setRadius(10);
@@ -99,7 +135,7 @@ public class Karta extends Button implements Obracalna{
 		
 		Timeline anim = new Timeline(
 			new KeyFrame(Duration.ZERO,
-				new KeyValue(zlato.colorProperty(), Color.rgb(255, 215, 0, 0.0)),
+				new KeyValue(zlato.colorProperty(), Color.rgb(255, 215, 0, 0.5)),
 				new KeyValue(zlato.radiusProperty(), 50)
 			),
 			new KeyFrame(Duration.seconds(1.5),
@@ -116,7 +152,7 @@ public class Karta extends Button implements Obracalna{
 	
 	@Override
 	public void obrni() {
-		final int i=(kupcek==1)?1:-1;
+		final int i=(kupcek==0)?1:-1;
 		RotateTransition rt1 = new RotateTransition(Duration.seconds(0.2), this);
 		rt1.setAxis(Rotate.Y_AXIS);
 		rt1.setFromAngle(0);
@@ -154,14 +190,28 @@ public class Karta extends Button implements Obracalna{
 		});
 		anim.setInterpolator(Interpolator.LINEAR);
 		RotateTransition rt = new RotateTransition(Duration.seconds(0.5), this);
-		//rt.setByAngle((Math.random() - 0.5) * 20); // -10° do +10°
+		rt.setByAngle((Math.random() - 0.5) * 20); // -10° do +10°
 		rt.setInterpolator(Interpolator.EASE_BOTH);
+		rt.setAxis(Rotate.Z_AXIS);
 		rt.play();
 		
+		this.kupcek=kupcek;
 		anim.play();
 		if(obrni)
 			obrni();
+	}
+	public void prestavi(int x, int y) {
+		TranslateTransition anim = new TranslateTransition(Duration.seconds(0.5), this);
+		
+		anim.setToX(x - this.getLayoutX());
+		anim.setToY(y - this.getLayoutY());
+		anim.setInterpolator(Interpolator.LINEAR);
+		RotateTransition rt = new RotateTransition(Duration.seconds(0.5), this);
+		rt.setInterpolator(Interpolator.EASE_BOTH);
+		rt.play();
+		
 		this.kupcek=kupcek;
+		anim.play();
 	}
 	public String toString(){
 		return vrednost;
@@ -169,6 +219,9 @@ public class Karta extends Button implements Obracalna{
 	public static void zvok(String ime) {
 		AudioClip zvok = new AudioClip(Vojna.class.getResource(ime).toString());
 		zvok.play();
+	}
+	public void setKupcek(int kupcek){
+		this.kupcek = kupcek;
 	}
 }
 

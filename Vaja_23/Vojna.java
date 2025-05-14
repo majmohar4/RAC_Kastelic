@@ -138,21 +138,67 @@ public class Vojna implements Mesalna{
                 zamik3.play();
                 break;
             case CHECK:
-                int index =0;
+                int[] index= deck1;
+                int indexInt =0;
                 prestavi.setDisable(true);
                 if(openLeft.vrniVrednostKarte()<openRight.vrniVrednostKarte()){
                     openRight.setGlowSlowly();
+                    index=deck2;
+                    indexInt=1;
+                    PauseTransition počakaj = new PauseTransition(Duration.seconds(1.2));
+                    počakaj.setOnFinished(e->{
+                        openRight.removeGlow();
+                        openRight.toFront();
+                        openLeft.toBack();
+                    });
+                    počakaj.play();
                 }
-                else if(openLeft.vrniVrednostKarte()>openRight.vrniVrednostKarte()){
+                else {
                     openLeft.setGlowSlowly();
+                    index=deck1;
+                    indexInt=0;
+                    PauseTransition počakaj = new PauseTransition(Duration.seconds(1.2));
+                    počakaj.setOnFinished(e->{
+                        openLeft.removeGlow();
+                        openLeft.toFront();
+                        openRight.toBack();
+                    });
+                    počakaj.play();
                 }
-                else{
-                    
-                }
-                break;
-            case CLEAR:
-                prestavi.setDisable(true);
+                pobrano[indexInt].dodaj(openRight);
+                pobrano[indexInt].dodaj(openLeft);
                 
+                
+                int[] finalindex = index;
+                PauseTransition počakaj = new PauseTransition(Duration.seconds(1.5));
+                počakaj.setOnFinished(e->{
+                    openLeft.prestavi(finalindex[0], finalindex[1]-300);
+                    openRight.prestavi(finalindex[0], finalindex[1]-300);
+                });
+                openLeft.setKupcek(indexInt);
+                počakaj.play();
+                PauseTransition gumb = new PauseTransition(Duration.seconds(1.8));
+                gumb.setOnFinished(e->{
+                    prestavi.setDisable(false);
+                });
+                gumb.play();
+                a=true;
+                if(levi.velikost()==0){
+                    if(pobrano[0].velikost()!=0){
+                        vrniKupcek(pobrano[0], levi);
+                        state=GameState.DRAW;
+                    }
+                    else state  = GameState.END;
+                }
+                else if(desni.velikost()==0){
+                    if(pobrano[1].velikost()!=0){
+                        vrniKupcek(pobrano[1], desni);
+                        state=GameState.DRAW;
+                    }
+                    else state  = GameState.END;
+                }
+            openLeft=null;
+            openRight=null;
                 break;
             case END:
                 //
@@ -163,6 +209,16 @@ public class Vojna implements Mesalna{
         }
         a=false;
     }
+    private void vrniKupcek(Kupcek pokopalisce, Kupcek novi){
+        Karta k;
+        for(int i=0; i<karte.length; i++){
+            k= pokopalisce.vzemi();
+            if(k==null) break;
+            novi.dodaj(k);
+        }
+        novi.premesaj();
+    }
+    
     @Override
     public void premesaj(){
         Random rand = new Random();
@@ -202,7 +258,7 @@ public class Vojna implements Mesalna{
             
             PauseTransition zamik1 = new PauseTransition(Duration.seconds(base - easeOut));
             zamik1.setOnFinished(e -> {
-                karte[j].prestavi(deck1[0], deck1[1], obrni, kupcek);
+                karte[j].prestavi(deck1[0], deck1[1], obrni, 0);
                 levi.dodaj(leva);
                 karta_zvok.play();
             });
@@ -210,7 +266,7 @@ public class Vojna implements Mesalna{
 
             PauseTransition zamik2 = new PauseTransition(Duration.seconds(base + 0.05 - easeOut));
             zamik2.setOnFinished(e -> {
-                karte[j+1].prestavi(deck2[0], deck2[1], obrni, kupcek);
+                karte[j+1].prestavi(deck2[0], deck2[1], obrni, 1);
                 karta_zvok.play();
                 desni.dodaj(desna);
                 popraviKupcka();
@@ -244,6 +300,7 @@ class Kupcek {
     }
     
     public Karta vzemi() {
+        if(start==end) return null;
         Karta k = karte[start];
         karte[start] = null;
         start++;
