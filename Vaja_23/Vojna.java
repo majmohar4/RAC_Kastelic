@@ -121,6 +121,7 @@ public class Vojna implements Mesalna{
                 zamik2.play();
                 break;
             case DRAW:
+                System.out.println("vzemi");
                 prestavi.setDisable(true);
                 openLeft = levi.vzemi();
                 openLeft.prestavi(open1[0], open1[1], true, 0);
@@ -138,6 +139,7 @@ public class Vojna implements Mesalna{
                 zamik3.play();
                 break;
             case CHECK:
+                System.out.println("preveri");
                 int[] index= deck1;
                 int indexInt =0;
                 prestavi.setDisable(true);
@@ -180,25 +182,35 @@ public class Vojna implements Mesalna{
                 PauseTransition gumb = new PauseTransition(Duration.seconds(1.8));
                 gumb.setOnFinished(e->{
                     prestavi.setDisable(false);
+                    //openLeft=null;
+                    //openRight=null;
                 });
                 gumb.play();
                 a=true;
                 if(levi.velikost()==0){
                     if(pobrano[0].velikost()!=0){
                         vrniKupcek(pobrano[0], levi);
+                        for(int i =levi.velikost(); i>0; i--){
+                            levi.get(i).prestavi(deck1[0], deck1[1], true, 0);
+                            System.out.print("levi");
+                        }
                         state=GameState.DRAW;
                     }
                     else state  = GameState.END;
                 }
-                else if(desni.velikost()==0){
+                if(desni.velikost()==0){
                     if(pobrano[1].velikost()!=0){
                         vrniKupcek(pobrano[1], desni);
+                        for(int i =desni.velikost(); i>0; i--){
+                            desni.get(i).prestavi(deck2[0], deck2[1], true, 0);
+                            System.out.print("desni");
+                        }
                         state=GameState.DRAW;
                     }
                     else state  = GameState.END;
+                }else{
+                    state=GameState.DRAW;
                 }
-            openLeft=null;
-            openRight=null;
                 break;
             case END:
                 //
@@ -211,11 +223,13 @@ public class Vojna implements Mesalna{
     }
     private void vrniKupcek(Kupcek pokopalisce, Kupcek novi){
         Karta k;
+        novi.reset();
         for(int i=0; i<karte.length; i++){
             k= pokopalisce.vzemi();
             if(k==null) break;
             novi.dodaj(k);
         }
+        pokopalisce.reset();
         novi.premesaj();
     }
     
@@ -294,6 +308,10 @@ class Kupcek {
         end=0;
     }
     
+    public Karta get(int index){
+        return karte[index];
+    }
+    
     public void dodaj(Karta karta) {
         karte[end] = karta;
         end++;
@@ -322,6 +340,10 @@ class Kupcek {
             karte[i] = karte[j];
             karte[j] = temp;
         }
+    }
+    public void reset(){
+        end=0;
+        start=0;
     }
 }
 interface Mesalna{
