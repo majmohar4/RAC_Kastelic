@@ -12,7 +12,8 @@ public class IgraVojna extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Layout.fxml"));
         Scene scena = new Scene(loader.load(), 1260, 810);
         GameController controller = loader.getController();
-        scena.setCamera(new PerspectiveCamera());
+        PerspectiveCamera kamera = new PerspectiveCamera();
+        scena.setCamera(kamera);
         
         Vojna vojna = new Vojna(controller);
         vojna.inicializiraj();

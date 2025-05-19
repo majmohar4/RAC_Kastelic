@@ -153,7 +153,7 @@ public class Karta extends Button implements Obracalna{
 	@Override
 	public void obrni() {
 		final int i=(kupcek==0)?1:-1;
-		RotateTransition rt1 = new RotateTransition(Duration.seconds(0.2), this);
+		RotateTransition rt1 = new RotateTransition(Duration.seconds(0.3), this);
 		rt1.setAxis(Rotate.Y_AXIS);
 		rt1.setFromAngle(0);
 		rt1.setToAngle((-90)*i);
@@ -166,7 +166,7 @@ public class Karta extends Button implements Obracalna{
 			
 			this.setRotate((-270)*i);
 			
-			RotateTransition rt2 = new RotateTransition(Duration.seconds(0.2), this);
+			RotateTransition rt2 = new RotateTransition(Duration.seconds(0.3), this);
 			rt2.setAxis(Rotate.Y_AXIS);
 			rt2.setFromAngle((-270)*i);
 			rt2.setToAngle((-360)*i);
@@ -181,7 +181,8 @@ public class Karta extends Button implements Obracalna{
 			return vrednost;
 		}
 	public void prestavi(int x, int y, boolean obrni, int kupcek) {
-		TranslateTransition anim = new TranslateTransition(Duration.seconds(0.5), this);
+		
+		TranslateTransition anim = new TranslateTransition(Duration.seconds(0.55), this);
 		
 		anim.setToX(x - this.getLayoutX());
 		anim.setToY(y - this.getLayoutY());
@@ -189,14 +190,14 @@ public class Karta extends Button implements Obracalna{
 			this.toBack();
 		});
 		anim.setInterpolator(Interpolator.LINEAR);
-		RotateTransition rt = new RotateTransition(Duration.seconds(0.5), this);
+		RotateTransition rt = new RotateTransition(Duration.seconds(0.55), this);
 		rt.setByAngle((Math.random() - 0.5) * 20); // -10° do +10°
 		rt.setInterpolator(Interpolator.EASE_BOTH);
 		rt.setAxis(Rotate.Z_AXIS);
 		rt.play();
 		
-		this.kupcek=kupcek;
 		anim.play();
+		this.kupcek=kupcek;
 		if(obrni)
 			obrni();
 	}

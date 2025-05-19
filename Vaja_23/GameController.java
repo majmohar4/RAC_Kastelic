@@ -14,10 +14,12 @@ public class GameController{
     @FXML public Pane mainPane;
     @FXML public Pane gamePane;
     @FXML public Pane cardsPane;
+    @FXML public Pane cheatPane;
+    
     @FXML public Pane welcomePane;
     @FXML public Label leviKupcekStevilo;
     @FXML public Label desniKupcekStevilo;
-    @FXML public Label statusLabel;
+    @FXML public Label status;
     @FXML public Button startBtn;
     @FXML public Button nextBtn;
     @FXML public Button endBtn;

@@ -80,6 +80,7 @@
                   </Label>
                </children>
             </Pane>
+            <Pane fx:id="cheatPane" layoutX="962.0" layoutY="158.0" prefHeight="58.0" prefWidth="57.0" />
          </children>
       </Pane>
    </children>
